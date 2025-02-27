@@ -43,14 +43,13 @@ class MainActivity : ComponentActivity() {
             Revolver_fortuniTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     localgameB()
-
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
                     ) {
 
-                        exit { finishAffinity()}
+                        Exit { finishAffinity()}
                         Button(
                             modifier = Modifier.align(Alignment.Center),
                             onClick = {}
@@ -105,7 +104,7 @@ fun nastroiki(){                                                 //создан�
 }
 
 @Composable
-fun BoxScope.exit(onClick: () -> Unit){                        //создание кнопки для выхода
+fun BoxScope.Exit(onClick: () -> Unit){                        //создание кнопки для выхода
     IconButton(
         modifier = Modifier.align(Alignment.BottomEnd),
         onClick = onClick,
@@ -117,5 +116,6 @@ fun BoxScope.exit(onClick: () -> Unit){                        //создани�
         )
     }
 }
+///
 
 
