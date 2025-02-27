@@ -43,12 +43,13 @@ class MainActivity : ComponentActivity() {
             Revolver_fortuniTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     localgameB()
+
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
                     ) {
-
+                        Oboi()
                         Exit { finishAffinity()}
                         Button(
                             modifier = Modifier.align(Alignment.Center),
@@ -116,6 +117,13 @@ fun BoxScope.Exit(onClick: () -> Unit){                        //создани�
         )
     }
 }
-///
 
+
+@Composable
+fun Oboi() {
+    Image(
+        painter = painterResource(id = R.drawable.imba), // Замените на имя вашего изображения
+        contentDescription = ""
+    )
+}
 
