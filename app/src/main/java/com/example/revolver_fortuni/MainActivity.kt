@@ -1,6 +1,7 @@
 package com.example.revolver_fortuni
 
 import android.graphics.drawable.Icon
+import android.hardware.camera2.params.BlackLevelPattern
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
@@ -31,6 +32,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 
@@ -42,27 +44,29 @@ class MainActivity : ComponentActivity() {
         setContent {
             Revolver_fortuniTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    localgameB()
+                    localgameB()                              //кнопка "играть по локальной сети"
 
-                    Box(
+                    Box(                                       //основной бокс
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
                     ) {
-                        Oboi()
-                        Exit { finishAffinity()}
+                        Oboi()                                //задний фон
+                        Exit { finishAffinity()}               //кнопка выхода
                         Button(
-                            modifier = Modifier.align(Alignment.Center),
-                            onClick = {}
+                            modifier = Modifier.align(Alignment.Center),        //оцентровка по центру
+                            onClick = {/*действие*/},
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(108,210,33) // Цвет фона кнопки
+                            )
                         ) {
-                            Text(
-                                "Играть",
-                                color = Color.Black,
-                                fontSize = 70.sp
-
+                            Text(                                 //цвет текста на кнопке
+                                "Играть",                      //текст кнопки
+                                color = Color.Black,               //цвет текста
+                                fontSize = 70.sp                    //размер шрифта текста
                                 )
                         }
-                        nastroiki()
+                        nastroiki()                                //кнопка настроек
                     }
                 }
             }
@@ -72,7 +76,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun localgameB(){                                      ////создание кнопки играть по локально сети
+fun localgameB(){                                      ////создание кнопки играть по локальной сети
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -95,11 +99,11 @@ fun localgameB(){                                      ////создание кн
 
 @Composable
 fun nastroiki(){                                                 //создание кнопки настройки
-    IconButton(onClick = { /* Действие для кнопки */ }) {
+    IconButton(onClick = { /* Действие*/ }) {
         Icon(
-            painter = painterResource(id = R.drawable.baseline_settings_24), // Замените на вашу иконку
+            painter = painterResource(id = R.drawable.baseline_settings_24), // замена на свою иконку
             contentDescription = "Иконка",
-            modifier = Modifier.size(24.dp) // Устанавливаем размер иконки
+            modifier = Modifier.size(24.dp) // размер иконки
         )
     }
 }
@@ -111,18 +115,18 @@ fun BoxScope.Exit(onClick: () -> Unit){                        //создани�
         onClick = onClick,
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.baseline_exit_to_app_24), // Замените на вашу иконку
+            painter = painterResource(id = R.drawable.baseline_exit_to_app_24), // замена на свою иконку
             contentDescription = "Иконка",
-            modifier = Modifier.size(24.dp) // Устанавливаем размер иконки
+            modifier = Modifier.size(24.dp) // размер иконки
         )
     }
 }
 
 
 @Composable
-fun Oboi() {
+fun Oboi() {                                                      //создание заднего фона
     Image(
-        painter = painterResource(id = R.drawable.imba), // Замените на имя вашего изображения
+        painter = painterResource(id = R.drawable.imba), // заменить на имя изображения
         contentDescription = ""
     )
 }
