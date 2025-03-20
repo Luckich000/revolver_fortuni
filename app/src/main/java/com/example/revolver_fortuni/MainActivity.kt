@@ -1,5 +1,6 @@
 package com.example.revolver_fortuni
 
+import android.content.Intent
 import android.graphics.drawable.Icon
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -33,6 +34,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.activity.compose.setContent
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 
 
 class MainActivity : ComponentActivity() {
@@ -62,7 +66,8 @@ class MainActivity : ComponentActivity() {
 
                                 )
                         }
-                        nastroiki()
+                        nastroiki{val intent = Intent(this@MainActivity, Settings::class.java)
+                            startActivity(intent)}
                     }
                 }
             }
@@ -94,8 +99,8 @@ fun localgameB(){                                      ////создание кн
 }
 
 @Composable
-fun nastroiki(){                                                 //создание кнопки настройки
-    IconButton(onClick = { /* Действие для кнопки */ }) {
+fun BoxScope.nastroiki(onClick: () -> Unit){                                                 //создание кнопки настройки
+    IconButton(onClick = onClick,) {
         Icon(
             painter = painterResource(id = R.drawable.baseline_settings_24), // Замените на вашу иконку
             contentDescription = "Иконка",
