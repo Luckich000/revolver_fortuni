@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -52,6 +53,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
+import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 
@@ -73,7 +75,13 @@ class Game : ComponentActivity() {
                             modifier = Modifier.align(Alignment.TopCenter),
                             fontWeight = FontWeight.Bold
                         )
-                        TextFieldToListApp()
+                        sostavchik()
+                        Text(
+                            text = "список игроков:",
+                            modifier = Modifier.padding(vertical = 140.dp, horizontal = 20.dp),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 30.sp
+                        )
                     }
                 }
             }
@@ -82,11 +90,13 @@ class Game : ComponentActivity() {
 }
 
 @Composable
-fun TextFieldToListApp() {
+fun sostavchik() {
     // Состояние для хранения списка текстов
-    val textList by remember { mutableStateOf(mutableListOf<String>()) }
+    var textList by remember { mutableStateOf(mutableListOf<String>()) }
     // Состояние для хранения текущего текста в TextField
     var currentText by remember { mutableStateOf(TextFieldValue("")) }
+    var onoff by remember { mutableStateOf(false) }
+    var showText by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -103,7 +113,6 @@ fun TextFieldToListApp() {
             placeholder = { Text("писать здесь") }
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
 
         // Кнопка для добавления текста
         Button(onClick = {
@@ -113,30 +122,67 @@ fun TextFieldToListApp() {
                 currentText = TextFieldValue("") // Очищаем текстовое поле
             }
         }) {
+
             Text("добавить игрока")
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+
 
         // Отображение добавленного текста
-        Column {
-            textList.forEach { text ->
-                Text(
-                    text = text,
-                    modifier = Modifier.padding(vertical = 4.dp),
-                    fontSize = 45.sp,
 
-                )
+
+    }
+    Box(
+        modifier = Modifier.padding(vertical = 170.dp, horizontal = 20.dp)
+    ){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Top
+        ){
+            if (onoff) {
+                Column {
+                    textList.forEach { text ->
+                        Text(
+                            text = text,
+                            fontSize = 35.sp,
+                        )
+                    }
+                }
+            }
+            if (!onoff) {
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    textList.forEach { text ->
+                        Text(
+                            text = text,
+                            fontSize = 35.sp,
+                        )
+                    }
+                }
             }
         }
 
     }
-    var showText by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .fillMaxSize()
 
     ){
+
+        Button(
+            modifier = Modifier.align(Alignment.BottomStart),
+            onClick = {
+                onoff = !onoff
+                if (textList.isNotEmpty()) {
+                    textList.removeAt(textList.size - 1)// Удаляем последний элемент
+                }
+            }) {
+            Text("Удалить последнего")
+        }
         Button(
             modifier = Modifier.align(Alignment.BottomEnd),
             onClick = {
@@ -148,7 +194,6 @@ fun TextFieldToListApp() {
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
 
         // Отображение текста, если showText равно true
         if (showText) {
@@ -160,6 +205,7 @@ fun TextFieldToListApp() {
 @Composable
 fun itog(sostav: MutableList<String>){
     var showDialog by remember { mutableStateOf(true) }
+
     if (showDialog){
         AlertDialog(
             onDismissRequest = {
@@ -195,5 +241,5 @@ fun itog(sostav: MutableList<String>){
             }
         )
     }
-
 }
+
