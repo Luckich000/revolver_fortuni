@@ -21,6 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Game"
+            android:exported="true"
+            android:theme="@style/Theme.Revolver_fortuni">
+        </activity>
     </application>
 
 </manifest>

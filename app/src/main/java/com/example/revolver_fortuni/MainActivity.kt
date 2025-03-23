@@ -1,5 +1,6 @@
 package com.example.revolver_fortuni
 
+import android.content.Intent
 import android.graphics.drawable.Icon
 import android.hardware.camera2.params.BlackLevelPattern
 import androidx.activity.compose.setContent
@@ -55,7 +56,10 @@ class MainActivity : ComponentActivity() {
                         Exit { finishAffinity()}               //кнопка выхода
                         Button(
                             modifier = Modifier.align(Alignment.Center),        //оцентровка по центру
-                            onClick = {/*действие*/},
+                            onClick = {
+                                val gameac = Intent(this@MainActivity, Game::class.java)
+                                startActivity(gameac)
+                            },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color(108,210,33) // Цвет фона кнопки
                             )
