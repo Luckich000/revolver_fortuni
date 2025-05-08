@@ -1,6 +1,7 @@
 package com.example.revolver_fortuni
 
 
+import android.content.Intent
 import android.graphics.drawable.Icon
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -54,8 +55,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.modifier.modifierLocalMapOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 
 
 class Game : ComponentActivity() {
@@ -212,8 +215,10 @@ fun itog(sostav: MutableList<String>){
                 showDialog = false
             },
             confirmButton = {
+                val context = LocalContext.current
                 TextButton({
-
+                    val colesoac = Intent(context, Coleso::class.java)
+                    context.startActivity(colesoac)
                 }) {
                     Text(
                         text = "ДА!"
