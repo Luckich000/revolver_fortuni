@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.revolver_fortuni.ui.theme.Revolver_fortuniTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -31,6 +32,17 @@ class Coleso : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                    ){
+                        Image(
+                            painter = painterResource(id = R.drawable.asdfgh),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .align(Alignment.Center)
+                        )
+                    }
                     revolver()
                 }
             }
@@ -48,6 +60,7 @@ fun revolver() {
     var rotationDurationSec by remember { mutableStateOf(0.3f) }
     val initialSpeed = 360f / (rotationDurationSec * 1000f)
     var currentSpeed by remember { mutableStateOf(0f) }
+    var knopka by remember { mutableStateOf(true) }
     LaunchedEffect(isRotating, isDecelerating, rotationDurationSec) {
         if (isRotating && !isDecelerating) {
             currentSpeed = initialSpeed
@@ -62,6 +75,7 @@ fun revolver() {
             val speedDecrement = currentSpeed / steps
             var speed = currentSpeed
 
+
             repeat(steps.toInt()) {
                 speed = max(0f, speed - speedDecrement)
                 currentSpeed = speed
@@ -75,47 +89,66 @@ fun revolver() {
         }
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(24.dp)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = painterResource(id = R.drawable.qwerty),
             contentDescription = "",
             modifier = Modifier
-                .size(200.dp)
+                .absoluteOffset(x = 5.dp, y = 5.dp)
+                .align(Alignment.Center)
+                .size(230.dp)
                 .rotate(rotation.value)
+
         )
         Spacer(modifier = Modifier.height(32.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Button(
-                onClick = {
-                    if (!isRotating) {
-                        isDecelerating = false
-                        isRotating = true
-                    }
-                },
-                enabled = !isRotating && !isDecelerating
-            ) {
-                Text("начать")
-            }
 
-            Button(
-                onClick = {
-                    if (isRotating && !isDecelerating) {
-                        isDecelerating = true
-                    }
-                },
-                enabled = isRotating && !isDecelerating
-            ) {
-                Text("стоп")
+            if (knopka){
+                Button(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .absoluteOffset(x=0.dp,y=-30.dp)
+                        .size(width = 300.dp, height = 100.dp),
+                    onClick = {
+                        if (!isRotating) {
+                            isDecelerating = false
+                            isRotating = true
+                        }
+                        knopka=false
+
+                    },
+                    enabled = !isRotating && !isDecelerating
+                ) {
+                    Text(
+                        text = "НАЧАТЬ",
+                        fontSize = 30.sp
+                    )
+                }
+            }
+            if (knopka==false) {
+                Button(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .absoluteOffset(x=0.dp,y=-30.dp)
+                        .size(width = 300.dp, height = 100.dp),
+                    onClick = {
+                        if (isRotating && !isDecelerating) {
+                            isDecelerating = true
+                        }
+                    },
+                    enabled = isRotating && !isDecelerating
+                ) {
+                    Text(
+                        "СТОП",
+                        fontSize = 30.sp)
+                }
             }
         }
 
