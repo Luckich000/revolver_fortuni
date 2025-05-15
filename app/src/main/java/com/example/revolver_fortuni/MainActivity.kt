@@ -1,5 +1,6 @@
 package com.example.revolver_fortuni
 
+import android.content.Intent
 import android.graphics.drawable.Icon
 import android.hardware.camera2.params.BlackLevelPattern
 import androidx.activity.compose.setContent
@@ -55,7 +56,10 @@ class MainActivity : ComponentActivity() {
                         Exit { finishAffinity()}               //кнопка выхода
                         Button(
                             modifier = Modifier.align(Alignment.Center),        //оцентровка по центру
-                            onClick = {/*действие*/},
+                            onClick = {
+                                val gameac = Intent(this@MainActivity, Game::class.java)
+                                startActivity(gameac)
+                            },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color(108,210,33) // Цвет фона кнопки
                             )
@@ -64,9 +68,10 @@ class MainActivity : ComponentActivity() {
                                 "Играть",                      //текст кнопки
                                 color = Color.Black,               //цвет текста
                                 fontSize = 70.sp                    //размер шрифта текста
-                                )
+                            )
                         }
-                        nastroiki()                                //кнопка настроек
+                        nastroiki{val intent = Intent(this@MainActivity, Settings::class.java)
+                            startActivity(intent)}                               //кнопка настроек
                     }
                 }
             }
@@ -98,12 +103,12 @@ fun localgameB(){                                      ////создание кн
 }
 
 @Composable
-fun nastroiki(){                                                 //создание кнопки настройки
-    IconButton(onClick = { /* Действие*/ }) {
+fun BoxScope.nastroiki(onClick: () -> Unit){                                                 //создание кнопки настройки
+    IconButton(onClick = onClick,) {
         Icon(
-            painter = painterResource(id = R.drawable.baseline_settings_24), // замена на свою иконку
+            painter = painterResource(id = R.drawable.baseline_settings_24), // Замените на вашу иконку
             contentDescription = "Иконка",
-            modifier = Modifier.size(24.dp) // размер иконки
+            modifier = Modifier.size(24.dp) // Устанавливаем размер иконки
         )
     }
 }
