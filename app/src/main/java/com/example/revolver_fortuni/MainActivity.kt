@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun localgameB(){                                      ////создание кнопки играть по локальной сети
+fun localgameB(){                                      ////создание кнопки для обычного колеса
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -94,7 +94,7 @@ fun localgameB(){                                      ////создание кн
             onClick = {  }
         ) {
             Text(
-                "играть по локальной сети",
+                "обычное колесо",
                 color = Color.Black,
 
                 )

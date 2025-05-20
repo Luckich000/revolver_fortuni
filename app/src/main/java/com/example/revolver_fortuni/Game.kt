@@ -74,7 +74,7 @@ class Game : ComponentActivity() {
                             .padding(innerPadding)
                     ) {
                         Text(
-                            "ДОБАВТЕ ИГРОКОВ",
+                            "ДОБАВЬТЕ ИГРОКОВ",
                             modifier = Modifier.align(Alignment.TopCenter),
                             fontWeight = FontWeight.Bold
                         )
@@ -91,6 +91,7 @@ class Game : ComponentActivity() {
         }
     }
 }
+
 
 @Composable
 fun sostavchik() {
@@ -121,6 +122,7 @@ fun sostavchik() {
         Button(onClick = {
             if (currentText.text.isNotEmpty()) {
                 // Добавляем текст в список
+                globalUsersStorage.users.add(User(name = "${currentText.text}"))
                 textList.add(currentText.text)
                 currentText = TextFieldValue("") // Очищаем текстовое поле
             }
@@ -181,7 +183,8 @@ fun sostavchik() {
             onClick = {
                 onoff = !onoff
                 if (textList.isNotEmpty()) {
-                    textList.removeAt(textList.size - 1)// Удаляем последний элемент
+                    textList.removeAt(textList.size - 1)
+                    globalUsersStorage.users.removeAt(globalUsersStorage.users.lastIndex)//Удаляем последний элемент
                 }
             }) {
             Text("Удалить последнего")
@@ -197,16 +200,15 @@ fun sostavchik() {
                 )
         }
 
-
         // Отображение текста, если showText равно true
         if (showText) {
-            itog(textList)
+            itog(globalUsersStorage.users)
         }
     }
 }
 
 @Composable
-fun itog(sostav: MutableList<String>){
+fun itog(sostav: MutableList<User>){
     var showDialog by remember { mutableStateOf(true) }
 
     if (showDialog){
@@ -248,3 +250,13 @@ fun itog(sostav: MutableList<String>){
     }
 }
 
+val globalUsersStorage = UsersStorage()
+
+class  UsersStorage {
+    val users: MutableList<User> = mutableListOf()
+}
+data class User(val name: String) {
+    override fun toString(): String {
+        return name
+    }
+}

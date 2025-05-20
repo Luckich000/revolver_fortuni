@@ -36,6 +36,11 @@
             android:exported="true"
             android:theme="@style/Theme.Revolver_fortuni">
         </activity>
+        <activity
+            android:name=".Finish"
+            android:exported="true"
+            android:theme="@style/Theme.Revolver_fortuni">
+        </activity>
     </application>
 
 </manifest>
