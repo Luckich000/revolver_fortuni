@@ -53,6 +53,12 @@ class Finish : ComponentActivity() {
                             onClick = {
                                 val startac = Intent(this@Finish, MainActivity::class.java)
                                 startActivity(startac)
+                                if(globalUsersStorage.users.size!=0){
+
+                                    while (globalUsersStorage.users.size!=0){
+                                        globalUsersStorage.users.removeAt(0)
+                                    }
+                                }
                             }
                         ) {
                             Text("Сыграть ещё раз")

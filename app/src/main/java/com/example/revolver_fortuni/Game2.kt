@@ -49,8 +49,6 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -63,7 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 
 
-class Game : ComponentActivity() {
+class Game2 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -80,7 +78,7 @@ class Game : ComponentActivity() {
                             modifier = Modifier.align(Alignment.TopCenter),
                             fontWeight = FontWeight.Bold
                         )
-                        sostavchik()
+                        sostavchik2()
                         Text(
                             text = "список игроков:",
                             modifier = Modifier.padding(vertical = 140.dp, horizontal = 20.dp),
@@ -96,7 +94,7 @@ class Game : ComponentActivity() {
 
 
 @Composable
-fun sostavchik() {
+fun sostavchik2() {
     // Состояние для хранения списка текстов
     var textList by remember { mutableStateOf(mutableListOf<String>()) }
     // Состояние для хранения текущего текста в TextField
@@ -121,17 +119,15 @@ fun sostavchik() {
 
 
         // Кнопка для добавления текста
-        Button(
-            onClick = {
-                if (currentText.text.isNotEmpty()) {
-                    // Добавляем текст в список
-                    globalUsersStorage.users.add(User(name = "${currentText.text}"))
-                    textList.add(currentText.text)
-                    currentText = TextFieldValue("") // Очищаем текстовое поле
-                }
-            },
-            colors = ButtonDefaults.buttonColors(Color.Green, Color.Black)
-        ) {
+        Button(onClick = {
+            if (currentText.text.isNotEmpty()) {
+                // Добавляем текст в список
+                globalUsersStorage.users.add(User(name = "${currentText.text}"))
+                textList.add(currentText.text)
+                currentText = TextFieldValue("") // Очищаем текстовое поле
+            }
+        }) {
+
             Text("добавить игрока")
         }
 
@@ -190,18 +186,14 @@ fun sostavchik() {
                     textList.removeAt(textList.size - 1)
                     globalUsersStorage.users.removeAt(globalUsersStorage.users.lastIndex)//Удаляем последний элемент
                 }
-            },
-            colors = ButtonDefaults.buttonColors(Color.Red, Color.Black)
-        ) {
+            }) {
             Text("Удалить последнего")
         }
         Button(
             modifier = Modifier.align(Alignment.BottomEnd),
             onClick = {
                 showText = !showText // Переключаем видимость текста
-            },
-            colors = ButtonDefaults.buttonColors(Color.Green, Color.Black)
-        ) {
+            }) {
             Text(
                 "ГОТОВО",
 
@@ -210,13 +202,13 @@ fun sostavchik() {
 
         // Отображение текста, если showText равно true
         if (showText) {
-            itog(globalUsersStorage.users)
+            itog2(globalUsersStorage.users)
         }
     }
 }
 
 @Composable
-fun itog(sostav: MutableList<User>){
+fun itog2(sostav: MutableList<User>){
     var showDialog by remember { mutableStateOf(true) }
 
     if (showDialog){
@@ -227,7 +219,7 @@ fun itog(sostav: MutableList<User>){
             confirmButton = {
                 val context = LocalContext.current
                 TextButton({
-                    val colesoac = Intent(context, Coleso::class.java)
+                    val colesoac = Intent(context, Coleso2::class.java)
                     context.startActivity(colesoac)
                 }) {
                     Text(
@@ -258,13 +250,3 @@ fun itog(sostav: MutableList<User>){
     }
 }
 
-val globalUsersStorage = UsersStorage()
-
-class  UsersStorage {
-    val users: MutableList<User> = mutableListOf()
-}
-data class User(val name: String) {
-    override fun toString(): String {
-        return name
-    }
-}

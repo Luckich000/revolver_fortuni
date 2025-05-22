@@ -41,6 +41,16 @@
             android:exported="true"
             android:theme="@style/Theme.Revolver_fortuni">
         </activity>
+        <activity
+            android:name=".Coleso2"
+            android:exported="true"
+            android:theme="@style/Theme.Revolver_fortuni">
+        </activity>
+        <activity
+            android:name=".Game2"
+            android:exported="true"
+            android:theme="@style/Theme.Revolver_fortuni">
+        </activity>
     </application>
 
 </manifest>

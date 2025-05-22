@@ -33,8 +33,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 
 
@@ -45,34 +48,28 @@ class MainActivity : ComponentActivity() {
         setContent {
             Revolver_fortuniTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    localgameB()                              //кнопка "играть по локальной сети"
-
+                    Oboi()
                     Box(                                       //основной бокс
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
                     ) {
-                        Oboi()                                //задний фон
                         Exit { finishAffinity()}               //кнопка выхода
-                        Button(
-                            modifier = Modifier.align(Alignment.Center),        //оцентровка по центру
-                            onClick = {
+                        Image(
+                            painter = painterResource(R.drawable.cnopkaplay),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(width = 250.dp, height = 120.dp)
+                                .clickable {
                                 val gameac = Intent(this@MainActivity, Game::class.java)
                                 startActivity(gameac)
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color(108,210,33) // Цвет фона кнопки
-                            )
-                        ) {
-                            Text(                                 //цвет текста на кнопке
-                                "Играть",                      //текст кнопки
-                                color = Color.Black,               //цвет текста
-                                fontSize = 70.sp                    //размер шрифта текста
-                            )
-                        }
+                            }
+                        )
                         nastroiki{val intent = Intent(this@MainActivity, Settings::class.java)
-                            startActivity(intent)}                               //кнопка настроек
+                            startActivity(intent)}
                     }
+                    localgameB()
                 }
             }
         }
@@ -81,7 +78,8 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun localgameB(){                                      ////создание кнопки для обычного колеса
+fun localgameB(){                    ////создание кнопки для быстрого колеса
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -91,10 +89,14 @@ fun localgameB(){                                      ////создание кн
         Button(
 
             modifier = Modifier.align(Alignment.BottomCenter),
-            onClick = {  }
+            onClick = {
+
+                val game2ac = Intent(context, Game2::class.java)
+                context.startActivity(game2ac)
+            }
         ) {
             Text(
-                "обычное колесо",
+                "быстрое колесо",
                 color = Color.Black,
 
                 )
@@ -117,7 +119,15 @@ fun BoxScope.nastroiki(onClick: () -> Unit){                                    
 fun BoxScope.Exit(onClick: () -> Unit){                        //создание кнопки для выхода
     IconButton(
         modifier = Modifier.align(Alignment.BottomEnd),
-        onClick = onClick,
+        onClick = {
+            onClick()
+            if(globalUsersStorage.users.size!=0){
+
+                while (globalUsersStorage.users.size!=0){
+                    globalUsersStorage.users.removeAt(0)
+                }
+            }
+        }
     ) {
         Icon(
             painter = painterResource(id = R.drawable.baseline_exit_to_app_24), // замена на свою иконку
@@ -131,7 +141,8 @@ fun BoxScope.Exit(onClick: () -> Unit){                        //создани�
 @Composable
 fun Oboi() {                                                      //создание заднего фона
     Image(
-        painter = painterResource(id = R.drawable.imba), // заменить на имя изображения
+        modifier = Modifier.fillMaxSize(),
+        painter = painterResource(id = R.drawable.oboi), // заменить на имя изображения
         contentDescription = ""
     )
 }

@@ -11,6 +11,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -75,6 +76,7 @@ fun Screen1(onNext: () -> Unit){
     var rotationDurationSec by remember { mutableStateOf(0.3f) }
     val initialSpeed = 360f / (rotationDurationSec * 1000f)
     var currentSpeed by remember { mutableStateOf(0f) }
+    var qwe by remember { mutableStateOf(1) }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -136,25 +138,20 @@ fun Screen1(onNext: () -> Unit){
             Box(
                 modifier = Modifier.fillMaxSize()
             ) {
-
-
-                Button(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .absoluteOffset(x = 0.dp, y = -30.dp)
-                        .size(width = 300.dp, height = 100.dp),
-                    onClick = {
-                        if (isRotating && !isDecelerating) {
-                            isDecelerating = true
-                        }
-                    },
-                    enabled = isRotating && !isDecelerating
-                ) {
-                    Text(
-                        "СТОП",
-                        fontSize = 30.sp
-                    )
+                if(qwe==1){
+                    Image(painter = painterResource(R.drawable.knopkastop), contentDescription = "", modifier = Modifier
+                            .absoluteOffset(x = 0.dp, y = -30.dp)
+                            .size(width = 350.dp, height = 150.dp)
+                            .align(Alignment.BottomCenter)
+                            .clickable {
+                                if (isRotating && !isDecelerating) {
+                                    isDecelerating = true
+                                }
+                                qwe=0
+                            },
+                        )
                 }
+
                 if (isRotating == false) {
                     Box(
                         modifier = Modifier.fillMaxSize()
@@ -173,18 +170,16 @@ fun Screen1(onNext: () -> Unit){
                                 fontSize = 40.sp
                             )
                         }
-                        Button(
+                        Image(painter = painterResource(R.drawable.knopkanext),
+                            contentDescription = "",
                             modifier = Modifier
-                                .align(Alignment.BottomCenter)
                                 .absoluteOffset(x = 0.dp, y = -30.dp)
-                                .size(width = 300.dp, height = 100.dp),
-                            onClick = onNext
-                        ) {
-                            Text(
-                                "ПРОДОЛЖИТЬ",
-                                fontSize = 30.sp
-                            )
-                        }
+                                .size(width = 350.dp, height = 150.dp)
+                                .align(Alignment.BottomCenter)
+                                .clickable {
+                                        onNext()
+                                },
+                        )
                     }
                 }
             }
@@ -279,18 +274,28 @@ fun Screen2(onNext: () -> Unit) {
             Box(
                 modifier = Modifier.fillMaxSize()
             ){
-                Button(
+                Image(painter = painterResource(R.drawable.knopkanext),
+                    contentDescription = "",
                     modifier = Modifier
-                        .size(width = 400.dp, height = 100.dp)
-                        .align(Alignment.Center),
-                    onClick = onNext
-                ){
-                    Text(
-                        fontSize = 40.sp,
-                        text="ПРОДОЛЖИТЬ"
-                    )
-
-                }
+                        .absoluteOffset(x = 0.dp, y = -30.dp)
+                        .size(width = 300.dp, height = 100.dp)
+                        .align(Alignment.BottomCenter)
+                        .clickable {
+                            onNext()
+                        },
+                )
+//                Button(
+//                    modifier = Modifier
+//                        .size(width = 400.dp, height = 100.dp)
+//                        .align(Alignment.Center),
+//                    onClick = onNext
+//                ){
+//                    Text(
+//                        fontSize = 40.sp,
+//                        text="ПРОДОЛЖИТЬ"
+//                    )
+//
+//                }
             }
         }
     }
@@ -304,24 +309,24 @@ fun Screen3 (onNext: () -> Unit){
     val dimdAlpha = remember { Animatable(0f) }
     val brightAlpha = remember { Animatable(0f) }
     val random = Random.nextBoolean()
-    var win = R.drawable.pusto
+    var win = R.drawable.lose
     val context = LocalContext.current
     var asd by remember { mutableStateOf(false) }
     val offsetY = remember { Animatable(2500f) } // start offset to left (hidden)
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF2196F3))  // base blue background
+            .background(Color(red=1,green=0,blue=1))  // base blue background
             .pointerInput(Unit) {
                 detectVerticalDragGestures(
                     onVerticalDrag = { change, dragAmount ->
-                        
+
                         if (dragAmount > 10) {
                             asd=true
                             // swipe down threshold
                             change.consume()
                             scope.launch {
-                                
+
                                 // Slow dimming (black overlay alpha from 0 to 0.6)
                                 dimdAlpha.animateTo(
                                     targetValue = 1f,
@@ -339,9 +344,9 @@ fun Screen3 (onNext: () -> Unit){
                                 dimAlpha.animateTo(0f, animationSpec = tween(durationMillis = 1500))
                                 // Change image when fully dimmed
                                 if (random){
-                                    win = R.drawable.three
+                                    win = R.drawable.life
                                 }else{
-                                    win = R.drawable.pusto
+                                    win = R.drawable.lose
                                 }
                                 currentImage =
                                     if (currentImage == R.drawable.revolver) win else R.drawable.revolver
@@ -378,14 +383,15 @@ fun Screen3 (onNext: () -> Unit){
             Box(
                 modifier = Modifier.fillMaxSize()
             ) {
-                Button(
-                    onClick = onNext,
+                Image(painter = painterResource(R.drawable.knopkanext),
+                    contentDescription = "",
                     modifier = Modifier
-                        .size(width = 300.dp, height = 90.dp)
                         .offset { IntOffset(100, offsetY.value.toInt()) }
-                ) {
-                    Text("ПРОДОЛЖАЕМ")
-                }
+                        .size(width = 300.dp, height = 100.dp)
+                        .clickable {
+                            onNext()
+                        },
+                )
             }
         }
         Image(
