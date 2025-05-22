@@ -225,7 +225,7 @@ fun Screen2(onNext: () -> Unit) {
                     .align(Alignment.TopCenter),
             )
         }
-        if (isVisible || alpha > 0f) { // Keep composable while fading out
+        if (isVisible || alpha > 0f) {
             Image(
                 painter = painterResource(id = R.drawable.potron1),
                 contentDescription = "",
@@ -305,34 +305,30 @@ fun Screen2(onNext: () -> Unit) {
 fun Screen3 (onNext: () -> Unit){
     val scope = rememberCoroutineScope()
     var currentImage by remember { mutableStateOf(R.drawable.revolver) }
-    val dimAlpha = remember { Animatable(1f) } // 1 = fully visible, 0 = fully dimmed
+    val dimAlpha = remember { Animatable(1f) }
     val dimdAlpha = remember { Animatable(0f) }
     val brightAlpha = remember { Animatable(0f) }
     val random = Random.nextBoolean()
     var win = R.drawable.lose
     val context = LocalContext.current
     var asd by remember { mutableStateOf(false) }
-    val offsetY = remember { Animatable(2500f) } // start offset to left (hidden)
+    val offsetY = remember { Animatable(2500f) }
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(red=1,green=0,blue=1))  // base blue background
+            .background(Color(red=1,green=0,blue=1))
             .pointerInput(Unit) {
                 detectVerticalDragGestures(
                     onVerticalDrag = { change, dragAmount ->
 
                         if (dragAmount > 10) {
                             asd=true
-                            // swipe down threshold
                             change.consume()
                             scope.launch {
-
-                                // Slow dimming (black overlay alpha from 0 to 0.6)
                                 dimdAlpha.animateTo(
                                     targetValue = 1f,
                                     animationSpec = tween(durationMillis = 1500)
                                 )
-                                // Quickly flash bright white overlay
                                 brightAlpha.animateTo(
                                     targetValue = 0.8f,
                                     animationSpec = tween(durationMillis = 100)
@@ -342,7 +338,6 @@ fun Screen3 (onNext: () -> Unit){
                                     animationSpec = tween(durationMillis = 100)
                                 )
                                 dimAlpha.animateTo(0f, animationSpec = tween(durationMillis = 1500))
-                                // Change image when fully dimmed
                                 if (random){
                                     win = R.drawable.life
                                 }else{
@@ -350,13 +345,11 @@ fun Screen3 (onNext: () -> Unit){
                                 }
                                 currentImage =
                                     if (currentImage == R.drawable.revolver) win else R.drawable.revolver
-                                // Instantly restore brightness (alpha = 1)
                                 dimAlpha.snapTo(1f)
                                 dimAlpha.animateTo(
                                     targetValue = 1f,
                                     animationSpec = tween(durationMillis = 1500)
                                 )
-                                // Reset dim overlay abruptly to 0
                                 dimdAlpha.snapTo(0f)
                                 if(!random){
                                     globalUsersStorage.users.removeAt(randomIndex)
@@ -400,13 +393,11 @@ fun Screen3 (onNext: () -> Unit){
             modifier = Modifier.fillMaxSize()
                 .alpha(dimAlpha.value)
         )
-        // Dimming black overlay with variable alpha
         Box(
             modifier = Modifier
                 .matchParentSize()
                 .background(Color.Black.copy(alpha = dimdAlpha.value))
         )
-        // Bright white overlay for flash
         Box(
             modifier = Modifier
                 .matchParentSize()
